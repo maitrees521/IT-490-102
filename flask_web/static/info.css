@@ -1,0 +1,63 @@
+html{
+        background-image: linear-gradient(to right, #DDA0DD, #9370DB , #663399);
+                background-size: 100% ;
+}
+div.info{
+	position: absolute ;
+	top: 15%; 
+	left: 55%;
+	width: 500px;
+	height: 258px;
+	padding: 5px;
+	background-color: #3A1963;
+	color: white;
+	/*border: 2px solid white;*/
+}
+div.dis{
+        position: absolute ;
+        top: 48%; 
+        left: 55%;
+        width: 500px;
+        height: 330px;
+        padding: 5px;
+        background-color: #3A1963;
+        color: white;
+       /* border: 2px solid white;*/
+}
+h1{
+	position: absolute ;
+        top: 40%; 
+        left: 10%;
+	font-size: 40px;
+	color: white;
+}
+
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  float: right;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+
+

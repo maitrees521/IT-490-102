@@ -1,0 +1,78 @@
+html{
+	background-image: linear-gradient(to right, #DDA0DD, #9370DB , #663399);
+		background-size: 100% ;
+}
+
+h1{
+	color: white ;
+	text-align: center ;
+	font-family: Papyrus ;
+	font-size: 80px ;
+	position: absolute ;
+	left: 50% ;
+	top: 40% ;
+	-ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+}
+h3{
+        color: white ;
+        text-align: center ;
+        font-family: Papyrus ;
+        font-size: 15px ;
+	position: absolute ;
+        left: 50% ;
+        top: 37% ;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+
+}
+
+
+p{
+	color: #9370DB ;
+	text-align: center ;
+	background-color: Black ;
+		
+
+}
+.button {
+	background-color: #4B0082 ;
+	color: white ;
+	padding: 15px 32px ;
+	border: none ;
+	outline: none ;
+	text-align: center ;
+	display: inline-block;
+	font-size: 16px ;
+	position: absolute;
+	left: 50% ;
+	top: 60% ;
+  	-ms-transform: translate(-50%, -50%);
+  	transform: translate(-50%, -50%);
+}
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  float: right;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}

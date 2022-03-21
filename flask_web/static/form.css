@@ -1,0 +1,72 @@
+html{
+        background-image: linear-gradient(to right, #DDA0DD, #9370DB , #663399);
+                background-size: 100% ;
+}
+
+h2{
+	font-size: 40px ;
+	color: white ;
+}
+
+.box{
+	border: 1px solid white;
+	background-color: white;
+	padding: 20px ;
+	text-align: center;
+	border-radius: 10px;	
+	padding-top: 50px ;
+	padding-right: 30px;
+        padding-bottom: 50px;
+	padding-left: 80px ;
+	
+
+}
+input{
+	width: 90% ;
+	padding: 20px 30px;
+	margin: 8px 0;
+	box-sizing: border-box;
+	border: 2px
+	border-radius: 5px;
+}
+button {
+        background-color: #4B0082 ;
+        color: white ;
+        padding: 15px 32px ;
+        border: none ;
+        outline: none ;
+        text-align: center ;
+        display: inline-block;
+        font-size: 16px ;
+
+}
+
+.link {
+  overflow: hidden;
+  border: 1px solid white;
+  background-color: white;
+  color: black;
+}
+
+/* Style the buttons that are used to open the tab content */
+.link button {
+  background-color: inherit;
+  float: right;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.link button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.link button.active {
+  background-color: #ccc;
+}
+
+
