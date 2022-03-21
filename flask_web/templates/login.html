@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html lang = "en">
+<head>
+  <title>Login Page</title>
+  <link rel="stylesheet" href={{ url_for('static', filename='form.css')}}/>
+  <meta charset = "UTF-8" />
+</head>
+<body>
+  <h2> Covidology<h2>
+  <h1>  <h1>
+    <form class="box" method="post">
+        <div class="container">
+            <p></p>
+	    <label for='Sign in'> Sign in </label>
+	    </br>
+	    </br>
+            <label for='username'> </label>
+            <input  class="center" type="text" placeholder="Username:" name="username" required>
+            </br>
+	    </br>
+            <label for='password'> </label>
+            <input  class="center" type="password" placeholder="Password:" name="password" required>
+            </br>
+	    </br>	
+            <button class="center" type="submit">Login</button>
+	    </br></br>
+	    <button class="link"type="link" onclick="location.href = 'http://10.0.2.15:5000/register'"> Create Account </button>
+	  
+            </br>
+
+	    
+            </div>
+    </form>
+
+</body>
+</html>

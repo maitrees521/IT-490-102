@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html lang = "en">
+<head>
+  <title>Register Page</title>
+  <meta charset = "UTF-8" />
+  <link rel="stylesheet" href={{ url_for('static', filename='form.css')}}/>
+</head>
+<body>
+  <h2> Covidology<h2>
+  <h1>  <h1>
+ 
+    <form class="box" method="post">
+      <div class="container">
+          <p></p>
+	    <label for='Register'> Create Account </label>
+	    </br></br>
+            <label for='username'></label>   
+            <input  class="center" type="text" placeholder="Enter Username" name="username" required>  
+            </br>
+	    <label for='email'></label>   
+            <input  class="center" type="text" placeholder="Enter Email" name="Email" required>
+            </br>
+            <label for='password'></label>  
+            <input  class="center" type="password" placeholder="Enter Password" name="password" required> 
+            </br>
+	    <label for='cpassword'></label>
+            <input  class="center" type="password" placeholder="Re-Enter Password" name="cpassword" required>
+
+            </br></br>
+            <button class="center" type="submit">Register</button>
+            </br></br>   
+	    <button class="link"type="link" onclick="location.href = 'http://10.0.2.15:5000/login'"> Alright Have An Account? </button>
+
+            </br>
+
+          
+            </div>   
+    </form> 
+
+</body>
+</html>
