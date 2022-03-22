@@ -5,14 +5,13 @@ from flask import Flask, render_template, url_for, redirect, request
 app = Flask(__name__)
 
 global PassFail
-app.config['DATABASE'] = ''
-try:
-	credentials = pika.PlainCredentials('admin', 'admin')
-	connection = pika.BlockingConnection(pika.ConnectionParameters('25.8.254.80', 5672, '/', credentials))
-	channel = connection.channel()
-	channel.queue_declare(queue='hello')
-except:
-	print('rabbit not online')
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+
+credentials = pika.PlainCredentials('admin', 'admin')
+connection = pika.BlockingConnection(pika.ConnectionParameters('25.8.254.80', 5672, '/', credentials))
+channel = connection.channel()
+channel.queue_declare(queue='hello')
+
 
 def callback(ch, method, properties, body):
 	pull = json.loads(body)
@@ -24,15 +23,46 @@ def callback(ch, method, properties, body):
 def home():
 	return render_template('landing.html')
 
-@app.route('/register', methods=['GET',' POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
-	return render_template('register.html')
+	try:
+		NPass = str(request.form['password'])
+		Nuser = str(request.form['username'])
+		NEmail = str(request.form['Email'])
+		message = {
+			"purpose": "login",
+			"username": Nuser,
+			"password": NPass,
+			"Email": NEmail
+		}
+		push = json.dumps(message)
+		print(push)
+		print('trying to reg')
+		channel.basic_publish(exchange='', routing_key='hello', body=push)
+		return render_template('landing.html')
+	except KeyError:
+		return render_template('register.html', message='')
+
 #THIS IS GETTING THE REGISTRATION FROM THE USER AND SENDING IT TO BE PUSHED TO RABBIT
 #BACKEND WILL TAKE THIS AND SEND IT TO DATABASE
-
+	
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-	return render_template('login.html')
+	try:
+		Pass = str(request.form['password'])
+		user = str(request.form['username'])
+		message = {
+			"purpose": "login",
+			"username": user,
+			"password": Pass
+		}
+		push = json.dumps(message)
+		print(push)
+		print('trying to login')
+		channel.basic_publish(exchange='', routing_key='hello', body=push)
+		return render_template('landing.html')
+	except KeyError:
+		return render_template('login.html')
 
 @app.route('/info', methods=['GET', 'POST'])
 def info():
