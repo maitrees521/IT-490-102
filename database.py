@@ -24,28 +24,37 @@ def callback(ch, method, properties, body):
     if pull.get('purpose') == 'reg':
         mycursor = db_connection.cursor()
         sql = "INSERT INTO users (username, password, email) VALUES (%s, %s, %s)"
-        val = pull.get('values')
+        value1 = pull['username']
+        value2= pull['password']
+        value3= pull['Email']
+        val = (value1, value2, value3)
         mycursor.execute(sql, val)
         db_connection.commit()
         #insert into table
         #INSERT INTO user (username, password, email) VALUES (%s, %s, %s)
         print('register new user')
     
-    
     if pull.get('purpose') == 'login':
         #Select into table
         #SELECT * FROM user WHERE username=%s and pass=%s
         print('Logining in user')
         mycursor = db_connection.cursor()
-        sql = 'SELECT * FROM users WHERE username=' + pull['username'] + " AND password=" + pull['password']
+        value1 = pull['username']
+        value2 = pull['password']
+        sql = "SELECT * FROM users WHERE username =%s AND password =%s"
+        val = (value1, value2)
+        #mycursor.execute(sql,val)
+
+       # myresult = mycursor.fetchall()
         try:
-            mycursor.execute(sql)
-            myresults = mycursor.fetchall()
+            mycursor.execute(sql,val)
+            myresult = mycursor.fetchall()
+            message= "sucessful"
         except:
-            print('Not there')
             message= "unsucessful"
-            push = json.dumps(message)
-            channel.basic_publish(exchange='', routing_key='bye' , body=push)
+        print(message)
+        push = json.dumps(message)
+        channel.basic_publish(exchange='', routing_key='bye' , body=push)
        #Select into table
        #SELECT * FROM user WHERE username=%s and pass=%s
         print('Logining in user')
