@@ -1,22 +1,29 @@
+import logging
 import pika, sys, os 
 import json
 from flask_rabmq import RabbitMQ
 from flask import Flask, render_template, url_for, redirect, request
 app = Flask(__name__)
 
-global PassFail
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 credentials = pika.PlainCredentials('admin', 'admin')
 connection = pika.BlockingConnection(pika.ConnectionParameters('25.8.254.80', 5672, '/', credentials))
 channel = connection.channel()
 channel.queue_declare(queue='hello')
+channel.queue_declare(queue='bye')
 
 
 def callback(ch, method, properties, body):
+	global log
 	pull = json.loads(body)
-	if pull.get('purpose') == 'results': #Recieve Login information
-		PassFail = 1
+	print(body)
+	log = 0
+	if (pull == 'sucessful'):
+		log = 1
+	else:
+		print('Not a Login')
+	channel.stop_consuming()
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -30,7 +37,7 @@ def register():
 		Nuser = str(request.form['username'])
 		NEmail = str(request.form['Email'])
 		message = {
-			"purpose": "login",
+			"purpose": "reg",
 			"username": Nuser,
 			"password": NPass,
 			"Email": NEmail
@@ -60,7 +67,16 @@ def login():
 		print(push)
 		print('trying to login')
 		channel.basic_publish(exchange='', routing_key='hello', body=push)
-		return render_template('landing.html')
+		channel.basic_consume(queue='bye', on_message_callback=callback, auto_ack=True)
+		print('Waiting for result...')
+		channel.start_consuming()
+		if (log == 1):
+			#channel.stop_consuming()
+			print('logged in')
+			return render_template('index.html')
+		else:
+			print('Not a user')
+		#	return render_template('register.html')
 	except KeyError:
 		return render_template('login.html')
 
@@ -68,7 +84,10 @@ def login():
 def info():
 	return render_template('index.html')
 
-
+@app.route('/game', methods=['GET', 'POST'])
+def info():
+	return render_template('game.html')
+	
 if __name__ == '__main__':
 	app.run(debug=True, host='0.0.0.0', port=5000)
 
