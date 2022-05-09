@@ -6,12 +6,16 @@ from flask import Flask, render_template, url_for, redirect, request
 app = Flask(__name__)
 
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+try:
+	credentials = pika.PlainCredentials('admin', 'admin')
+	connection = pika.BlockingConnection(pika.ConnectionParameters('25.8.254.80', 5672, '/', credentials))
+	channel = connection.channel()
+	channel.queue_declare(queue='backend')
+	channel.queue_declare(queue='database')
+	channel.queue_declare(queue='frontend')
 
-credentials = pika.PlainCredentials('admin', 'admin')
-connection = pika.BlockingConnection(pika.ConnectionParameters('25.8.254.80', 5672, '/', credentials))
-channel = connection.channel()
-channel.queue_declare(queue='hello')
-channel.queue_declare(queue='bye')
+except:
+	print('didnt work')
 
 
 def callback(ch, method, properties, body):
@@ -45,7 +49,7 @@ def register():
 		push = json.dumps(message)
 		print(push)
 		print('trying to reg')
-		channel.basic_publish(exchange='', routing_key='hello', body=push)
+		channel.basic_publish(exchange='', routing_key='backend', body=push)
 		return render_template('landing.html')
 	except KeyError:
 		return render_template('register.html', message='')
@@ -66,8 +70,8 @@ def login():
 		push = json.dumps(message)
 		print(push)
 		print('trying to login')
-		channel.basic_publish(exchange='', routing_key='hello', body=push)
-		channel.basic_consume(queue='bye', on_message_callback=callback, auto_ack=True)
+		channel.basic_publish(exchange='', routing_key='backend', body=push)
+		channel.basic_consume(queue='front', on_message_callback=callback, auto_ack=True)
 		print('Waiting for result...')
 		channel.start_consuming()
 		if (log == 1):
@@ -76,18 +80,16 @@ def login():
 			return render_template('index.html')
 		else:
 			print('Not a user')
-		#	return render_template('register.html')
+			return render_template('game.html')
 	except KeyError:
 		return render_template('login.html')
 
-@app.route('/info', methods=['GET', 'POST'])
-def info():
-	return render_template('index.html')
-
-@app.route('/game', methods=['GET', 'POST'])
-def info():
-	return render_template('game.html')
+@app.route('/quiz', methods=['GET', 'POST'])
+def quiz():
+	return render_template('quiz.html')
 	
 if __name__ == '__main__':
 	app.run(debug=True, host='0.0.0.0', port=5000)
+
+
 
